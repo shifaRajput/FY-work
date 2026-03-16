@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Pages</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='detail.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!--nav bar-->
+  <!-- Desktop Navbar -->
+<nav class="navbar desktop-navbar">
+  <div class="navbar-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+
+  <ul class="navbar-center">
+    <li class="active"><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="{{ url_for('sell_bp.sell_page') }}"><i class="fa-solid fa-tag"></i> Sell</a></li>
+    <li><a href="{{ url_for('repair_bp.repair_page') }}"><i class="fa-solid fa-screwdriver-wrench"></i> Repair</a></li>
+    <li><a href="{{ url_for('myorders.order_page') }}"><i class="fa-solid fa-box"></i> My Order</a></li>
+    <li><a href="{{ url_for('profile') }}"><i class="fa-solid fa-user"></i> Me</a></li>
+  </ul>
+
+  <div class="navbar-right">
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+<!-- Mobile Top Bar -->
+<nav class="mobile-topbar">
+  <div class="mobile-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+
+  <div class="mobile-right">
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+
+<nav class="mobile-bottom-nav">
+  <a href="{{ url_for('home') }}" class="nav-item active">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </a>
+  <a href="{{ url_for('sell_bp.sell_page') }}" class="nav-item">
+    <i class="fa-solid fa-tag"></i>
+    <span>Sell</span>
+  </a>
+  <a href="{{ url_for('repair_bp.repair_page') }}" class="nav-item">
+    <i class="fa-solid fa-screwdriver-wrench"></i>
+    <span>Repair</span>
+  </a>
+  <a href="{{ url_for('myorders.order_page') }}" class="nav-item">
+    <i class="fa-solid fa-box"></i>
+    <span>Orders</span>
+  </a>
+  <a href="{{ url_for('profile') }}" class="nav-item">
+    <i class="fa-solid fa-user"></i>
+    <span>Me</span>
+  </a>
+</nav>
+
+<!-- back link-->
+  <button class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
+<br><br>
+
+<div class="product-page">
+
+  <!-- LEFT: Image Section -->
+
+ <div class="image-section">
+  <div class="thumbnail-column">
+    {% for media in product.media %}
+      {% if media.filetype == 'image' %}
+        <img 
+          src="{{ url_for('static', filename='uploads/' + media.filename) }}" 
+          class="thumbnail {% if loop.first %}active{% endif %}">
+          
+      {% elif media.filetype == 'video' %}
+        <div class="thumbnail video-thumb" data-src="{{ url_for('static', filename='uploads/' + media.filename) }}">
+          <video src="{{ url_for('static', filename='uploads/' + media.filename) }}#t=0.1" 
+                 preload="metadata" 
+                 muted 
+                 style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          </video>
+          <span class="play-overlay">▶</span>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="img-container" id="container">
+    <div id="lens" class="zoom-lens"></div>
+    
+    {% set images = product.media | selectattr('filetype', 'equalto', 'image') | list %}
+    {% if images %}
+      <img id="main-img" src="{{ url_for('static', filename='uploads/' + images[0].filename) }}">
+    {% endif %}
+
+    <video id="main-video" controls muted playsinline style="display: none; width: 100%; height: auto; max-height: 500px; object-fit: contain;">
+    </video>
+  </div>
+
+  <div id="result" class="zoom-result"></div>
+</div>
+
+ <!-- RIGHT: Product Info -->
+  <div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <div class="price">
+  <span class="current-price">₹{{ product.real_price }}</span>
+
+  {% if product.old_price %}
+      <span class="old-price">₹{{ product.old_price }}</span>
+      <span class="save">
+          Save ₹{{ product.old_price - product.real_price }}
+      </span>
+  {% endif %}
+</div>
+
+    <p class="short-desc">
+  {{ product.tagline }}
+</p>
+
+    <div class="product-highlights">
+      <div class="specs">
+  <h3>Key Specifications</h3>
+  <ul>
+    {% for spec in product.key_specs.split(',') %}
+        <li>{{ spec.strip() }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+      <div class="features">
+        <div class="feature">
+          <i class="fa-solid fa-truck"></i>
+          <p>Free Delivery</p>
+        </div>
+        <div class="feature">
+          <i class="fa-solid fa-shield"></i>
+          <p><strong>Condition:</strong> {{ product.grade }}</p>
+        </div>
+        <div class="feature">
+          <i class="fa-solid fa-rotate-left"></i>
+          <p>Easy Returns</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="button add-to-cart-btn" data-id="{{ product.id }}">
+    <span class="text-initial">Add to Cart</span>
+    
+    <div class="quantity-controls">
+        <span class="minus">—</span>
+        <span class="qty">1</span>
+        <span class="plus">+</span>
+    </div>
+
+    <div class="cart">
+        <svg viewBox="0 0 36 26">
+            <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>
+            <polyline points="15 13.5 17 15.5 22 10.5"></polyline>
+        </svg>
+    </div>
+</button>
+      <a href="{{ url_for('payment.checkout', product_id=product.id) }}" class="buy-now">Buy Now</a>
+      <div class="actions">
+        <button class="wishlist-btn" id="wishlistBtn" data-product-id="{{ product.id }}" onclick="handleDetailWishlistToggle(parseInt(this.getAttribute('data-product-id')), event)">
+        <i class="fa-regular fa-heart"></i>
+        </button>
+      </div>
+      
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM TABS -->
+<div class="tabs-section">
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('Information')">Information</button>
+    <button class="tab-btn" onclick="openTab('reviews')">Reviews</button>
+  </div>
+
+  <div class="tab-content active" id="Information">
+    <h3>Product Information</h3>
+    <p>{{ product.product_information }}</p>
+  </div>
+
+
+  <div class="tab-content" id="reviews">
+    <h3>Customer Reviews</h3>
+    <p>⭐ 5/5 — Amazing phone, feels brand new!</p>
+    <p>⭐ 4/5 — Great value for money.</p>
+    <p>⭐ 5/5 — Camera quality is outstanding.</p>
+  </div>
+
+</div>
+
+<!-- FULLSCREEN IMAGE VIEWER -->
+<div class="fullscreen-viewer" id="fullscreenViewer">
+  <span class="close-btn" id="closeViewer">&times;</span>
+  <img id="fullscreenImage" src="">
+  <button class="nav-btn prev" id="prevImage">&#10094;</button>
+  <button class="nav-btn next" id="nextImage">&#10095;</button>
+</div> 
+
+<script src="{{ url_for('static', filename='detail.js') }}"></script>
+</body>
+</html>

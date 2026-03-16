@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout – 2MB Computer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='payment.css') }}">
+</head>
+<body>
+
+<!-- Hidden meta for JS: tells payment.js which product (Buy Now) or empty (Cart) -->
+<div id="buyNowMeta" data-product-id="{{ product_id or '' }}" style="display:none;"></div>
+
+<!-- ═══════════════════════════════ DESKTOP NAVBAR ═════════════════════════════ -->
+<nav class="navbar desktop-navbar">
+  <div class="navbar-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+
+  <ul class="navbar-center">
+    <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="{{ url_for('sell_bp.sell_page') }}"><i class="fa-solid fa-tag"></i> Sell</a></li>
+    <li><a href="{{ url_for('repair_bp.repair_page') }}"><i class="fa-solid fa-screwdriver-wrench"></i> Repair</a></li>
+    <li><a href="{{ url_for('myorders.order_page') }}"><i class="fa-solid fa-box"></i> My Order</a></li>
+    <li><a href="{{ url_for('profile') }}"><i class="fa-solid fa-user"></i> Me</a></li>
+  </ul>
+
+  <div class="navbar-right">
+    <span class="nav-username" id="navUserName">{{ user.name if user else '' }}</span>
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i><span class="badge-dot" id="bagCount">0</span></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ MOBILE TOP BAR ════════════════════════════ -->
+<nav class="mobile-topbar">
+  <div class="mobile-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+  <div class="mobile-right">
+    <a href="{{ url_for('cart') }}" style="position:relative;">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span class="badge-dot" id="bagCountMobile">0</span>
+    </a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ MOBILE BOTTOM NAV ════════════════════════ -->
+<nav class="mobile-bottom-nav">
+  <a href="{{ url_for('home') }}" class="nav-item">
+    <i class="fa-solid fa-house"></i><span>Home</span>
+  </a>
+  <a href="{{ url_for('sell_bp.sell_page') }}" class="nav-item">
+    <i class="fa-solid fa-tag"></i><span>Sell</span>
+  </a>
+  <a href="{{ url_for('repair_bp.repair_page') }}" class="nav-item">
+    <i class="fa-solid fa-screwdriver-wrench"></i><span>Repair</span>
+  </a>
+  <a href="{{ url_for('myorders.order_page') }}" class="nav-item">
+    <i class="fa-solid fa-box"></i><span>Orders</span>
+  </a>
+  <a href="{{ url_for('profile') }}" class="nav-item">
+    <i class="fa-solid fa-user"></i><span>Me</span>
+  </a>
+</nav>
+
+<!-- ═══════════════════════════════ PAGE CONTENT ══════════════════════════════ -->
+<div class="page-wrap">
+  <div class="page-title">Checkout</div>
+
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="step active" id="step1indicator">
+      <div class="step-circle">1</div>
+      <div class="step-label">Address</div>
+    </div>
+    <div class="step-line" id="line1"></div>
+    <div class="step" id="step2indicator">
+      <div class="step-circle">2</div>
+      <div class="step-label">Order Summary</div>
+    </div>
+    <div class="step-line" id="line2"></div>
+    <div class="step" id="step3indicator">
+      <div class="step-circle">3</div>
+      <div class="step-label">Payment</div>
+    </div>
+  </div>
+
+  <div class="checkout-layout">
+    <!-- LEFT COLUMN: Steps -->
+    <div>
+
+      <!-- ── Step 1: Address ──────────────────────────────────────────────── -->
+      <div class="step-content active card" id="stepContent1">
+        <div class="card-title">Delivery Address</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name <span>*</span></label>
+            <input type="text" id="fullName" value="{{ user.name if user else '' }}" placeholder="Full name"/>
+            <div class="error-msg" id="errFullName"></div>
+          </div>
+          <div class="form-group">
+            <label>Phone Number <span>*</span></label>
+            <input type="tel" id="phone" value="{{ user.phone if user and user.phone else '' }}" placeholder="10-digit number" maxlength="10"/>
+            <div class="error-msg" id="errPhone"></div>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label>House No. / Flat No. / Building <span>*</span></label>
+            <input type="text" id="house" placeholder="e.g., Flat 101, Building A"/>
+            <div class="error-msg" id="errHouse"></div>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Road / Area / Colony <span>*</span></label>
+            <input type="text" id="road" placeholder="e.g., MG Road, Sector 15"/>
+            <div class="error-msg" id="errRoad"></div>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Landmark <span class="optional">(Optional)</span></label>
+            <input type="text" id="landmark" placeholder="e.g., Near Metro Station"/>
+          </div>
+        </div>
+        <div class="form-row triple">
+          <div class="form-group">
+            <label>City <span>*</span></label>
+            <input type="text" id="city" placeholder="City"/>
+            <div class="error-msg" id="errCity"></div>
+          </div>
+          <div class="form-group">
+            <label>State <span>*</span></label>
+            <input type="text" id="state" placeholder="State"/>
+            <div class="error-msg" id="errState"></div>
+          </div>
+          <div class="form-group">
+            <label>Pincode <span>*</span></label>
+            <input type="text" id="pincode" placeholder="6-digit" maxlength="6"/>
+            <div class="error-msg" id="errPincode"></div>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="goToStep2()">
+          <i class="fa-solid fa-arrow-right"></i> Continue to Order Summary
+        </button>
+      </div>
+
+      <!-- ── Step 2: Order Summary ────────────────────────────────────────── -->
+      <div class="step-content card" id="stepContent2">
+        <div class="card-title">Order Summary</div>
+        <div class="address-preview" id="addressPreview"></div>
+        <div id="orderItemsList"></div>
+        <button class="btn-primary" onclick="goToStep3()">
+          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
+        </button>
+        <br/>
+        <button class="btn-back" onclick="goToStep(1)">← Back to Address</button>
+      </div>
+
+      <!-- ── Step 3: Payment ─────────────────────────────────────────────── -->
+      <div class="step-content card" id="stepContent3">
+        <div class="card-title">Payment Method</div>
+
+        <label class="payment-option" onclick="selectPayment('gpay', this)">
+          <input type="radio" name="payMethod" value="gpay"/>
+          <span class="payment-icon">📱</span>
+          <span class="payment-label">Google Pay / UPI</span>
+        </label>
+
+        <label class="payment-option" onclick="selectPayment('card', this)">
+          <input type="radio" name="payMethod" value="card"/>
+          <span class="payment-icon">💳</span>
+          <span class="payment-label">Credit / Debit Card</span>
+        </label>
+        <div class="card-fields" id="cardFields">
+          <div class="form-row single">
+            <div class="form-group">
+              <label>Card Number</label>
+              <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Expiry Date</label>
+              <input type="text" id="expiry" placeholder="MM/YY" maxlength="5"/>
+            </div>
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="password" id="cvv" placeholder="•••" maxlength="4"/>
+            </div>
+          </div>
+        </div>
+
+        <label class="payment-option" onclick="selectPayment('cod', this)">
+          <input type="radio" name="payMethod" value="cod"/>
+          <span class="payment-icon">💵</span>
+          <span class="payment-label">Cash on Delivery</span>
+        </label>
+        <div class="cod-note" id="codNote">
+          <i class="fa-solid fa-circle-info"></i>
+          Please keep exact change ready at the time of delivery.
+        </div>
+
+        <button class="btn-primary" id="payBtn" onclick="submitPayment()" style="margin-top:18px">
+          <i class="fa-solid fa-lock"></i> Pay <span id="payBtnAmount">₹0.00</span>
+        </button>
+        <br/>
+        <button class="btn-back" onclick="goToStep(2)">← Back to Summary</button>
+      </div>
+
+      <!-- ── Success Screen ─────────────────────────────────────────────── -->
+      <div class="step-content card" id="stepContentSuccess">
+        <div class="success-screen">
+          <div class="success-icon">✅</div>
+          <h2>Payment Successful!</h2>
+          <p id="successMsg">Your order has been placed successfully.</p>
+          <p class="redirect-note">Redirecting to My Orders in 3 seconds…</p>
+          <button class="btn-primary" style="max-width:220px;margin:24px auto 0"
+                  onclick="window.location.href='/myorders'">
+            <i class="fa-solid fa-box"></i> Go to My Orders
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /left column -->
+
+    <!-- RIGHT COLUMN: Order Summary Card -->
+    <div>
+      <div class="card summary-card">
+        <div class="summary-title">Price Details</div>
+        <div class="summary-row">
+          <span id="summaryItemsLabel">Items</span>
+          <span id="summaryItemsAmt">–</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery</span>
+          <span class="free"><i class="fa-solid fa-truck"></i> FREE</span>
+        </div>
+        <hr class="summary-divider"/>
+        <div class="summary-total">
+          <span>Total Amount</span>
+          <span class="amount" id="summaryTotal">–</span>
+        </div>
+        <p class="secure-note"><i class="fa-solid fa-shield-halved"></i> Secure &amp; Encrypted Checkout</p>
+      </div>
+    </div>
+
+  </div><!-- /checkout-layout -->
+</div><!-- /page-wrap -->
+
+<div id="toast"></div>
+
+<script src="{{ url_for('static', filename='payment.js') }}"></script>
+<script>
+  // Auto-fill address when user types their name and tabs out
+  document.getElementById('fullName').addEventListener('blur', async function () {
+    const nameValue = this.value.trim();
+    if (!nameValue) return;
+    try {
+      const response = await fetch('/api/get-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: nameValue })
+      });
+      const data = await response.json();
+      if (data.success) {
+        if (data.phone) document.getElementById('phone').value = data.phone;
+        if (data.address) {
+          const parts = data.address.split(', ');
+          if (parts.length >= 4) {
+            document.getElementById('house').value = parts[0] || '';
+            document.getElementById('road').value  = parts[1] || '';
+            document.getElementById('city').value  = parts[2] || '';
+            const statePin = parts[3].split(' - ');
+            document.getElementById('state').value   = statePin[0] || '';
+            document.getElementById('pincode').value = statePin[1] || '';
+          }
+        }
+        showToast('Details auto-filled!', 'success');
+      }
+    } catch (err) { console.error('Auto-fill error:', err); }
+  });
+
+  // Keep mobile badge in sync
+  const bagCount = document.getElementById('bagCount');
+  if (bagCount) {
+    const observer = new MutationObserver(() => {
+      const m = document.getElementById('bagCountMobile');
+      if (m) m.textContent = bagCount.textContent;
+    });
+    observer.observe(bagCount, { childList: true });
+  }
+</script>
+</body>
+</html>

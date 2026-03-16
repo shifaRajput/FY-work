@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ product.name }}</title>
+</head>
+<body>
+
+<h1>{{ product.name }}</h1>
+
+<p>Brand: {{ product.brand }}</p>
+<p>Price: ₹{{ product.real_price }}</p>
+
+{% if product.discount_enabled %}
+<p>Old price: ₹{{ product.old_price }}</p>
+{% endif %}
+
+<h3>Images</h3>
+
+{% for media in product.media %}
+    {% if media.filetype == "image" %}
+        <img src="{{ url_for('static', filename='uploads/' + media.filename) }}" width="300">
+    {% endif %}
+{% endfor %}
+
+<p>{{ product.description }}</p>
+
+<a href="{{ url_for('home') }}">Back to Home</a>
+
+</body>
+</html>
