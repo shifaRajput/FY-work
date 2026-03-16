@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | 2MB Computer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='terms&condition.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+<!--nav bar-->
+  <!-- Desktop Navbar -->
+<nav class="navbar desktop-navbar">
+  <div class="navbar-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+
+  <ul class="navbar-center">
+    <li class="active"><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="{{ url_for('sell_bp.sell_page') }}"><i class="fa-solid fa-tag"></i> Sell</a></li>
+    <li><a href="{{ url_for('repair_bp.repair_page') }}"><i class="fa-solid fa-screwdriver-wrench"></i> Repair</a></li>
+    <li><a href="{{ url_for('myorders.order_page') }}"><i class="fa-solid fa-box"></i> My Order</a></li>
+    <li><a href="{{ url_for('profile') }}"><i class="fa-solid fa-user"></i> Me</a></li>
+  </ul>
+
+  <div class="navbar-right">
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+<!-- Mobile Top Bar -->
+<nav class="mobile-topbar">
+  <div class="mobile-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+
+  <div class="mobile-right">
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+
+<nav class="mobile-bottom-nav">
+  <a href="{{ url_for('home') }}" class="nav-item active">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </a>
+  <a href="{{ url_for('sell_bp.sell_page') }}" class="nav-item">
+    <i class="fa-solid fa-tag"></i>
+    <span>Sell</span>
+  </a>
+  <a href="{{ url_for('repair_bp.repair_page') }}" class="nav-item">
+    <i class="fa-solid fa-screwdriver-wrench"></i>
+    <span>Repair</span>
+  </a>
+  <a href="{{ url_for('myorders.order_page') }}" class="nav-item">
+    <i class="fa-solid fa-box"></i>
+    <span>Orders</span>
+  </a>
+  <a href="{{ url_for('profile') }}" class="nav-item">
+    <i class="fa-solid fa-user"></i>
+    <span>Me</span>
+  </a>
+</nav>
+
+<header>
+    <div class="back-btn" onclick="goBack()">
+  <i class="fa-solid fa-arrow-left"></i>
+  <span>Back</span>
+</div>
+    <h1>Terms & Conditions</h1>
+    <p>Last Updated: March 2026 | 2MB Computer</p>
+</header>
+
+<div class="wrapper">
+    <aside class="sidebar">
+        <h4>Navigation</h4>
+        <ul class="nav-links">
+            <li><a href="#section1">Use of Website</a></li>
+            <li><a href="#section2">Product Info</a></li>
+            <li><a href="#section3">User Accounts</a></li>
+            <li><a href="#section4">Payments</a></li>
+            <li><a href="#section5">Returns</a></li>
+            <li><a href="#section6">Intellectual Property</a></li>
+            <li><a href="#section9">Contact</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-area">
+        <p class="intro-text" style="font-size: 1.15rem; color: var(--text-dark); border-bottom: 2px solid #f0f0f0; padding-bottom: 25px; margin-bottom: 40px;">
+            Welcome to <b>2MB Computer</b>. These Terms and Conditions govern your use of our website and services. By using our website, you agree to these terms.
+        </p>
+
+        <section id="section1">
+            <h2>1. Use of Website</h2>
+            <p>This website is intended for purchasing laptops and related electronic products. Users must not misuse the website or engage in illegal activities.</p>
+        </section>
+
+        <section id="section2">
+            <h2>2. Product Information</h2>
+            <p>We aim to provide accurate product descriptions, prices and images. However, minor differences may occur due to display or manufacturer updates.</p>
+        </section>
+
+        <section id="section3">
+            <h2>3. User Accounts</h2>
+            <ul style="list-style: none; margin-top: 15px;">
+                <li style="padding: 12px 15px; background: #f9f9f9; margin-bottom: 8px; border-radius: 8px; display: flex; align-items: center;">Users must provide accurate personal information.</li>
+                <li style="padding: 12px 15px; background: #f9f9f9; margin-bottom: 8px; border-radius: 8px; display: flex; align-items: center;">You are responsible for maintaining your account security.</li>
+                <li style="padding: 12px 15px; background: #f9f9f9; margin-bottom: 8px; border-radius: 8px; display: flex; align-items: center;">Unauthorized access should be reported immediately.</li>
+            </ul>
+        </section>
+
+        <section id="section4">
+            <h2>4. Payments</h2>
+            <p>All orders must be paid through approved payment methods available on our website. Orders will only be processed after successful payment confirmation.</p>
+        </section>
+
+        <section id="section5">
+            <h2>5. Return & Refund</h2>
+            <p>If a product is damaged or incorrect, users may request a return or refund within the allowed return period according to our policy.</p>
+        </section>
+
+        <section id="section6">
+            <h2>6. Intellectual Property</h2>
+            <p>All website content including logos, images, and text belongs to <b>2MB Computer</b>. Unauthorized use or reproduction is prohibited.</p>
+        </section>
+
+        <section id="section7">
+            <h2>7. Limitation of Liability</h2>
+            <p>2MB Computer will not be responsible for any indirect or consequential damages arising from the use of our website.</p>
+        </section>
+
+        <section id="section8">
+            <h2>8. Updates to Terms</h2>
+            <p>We reserve the right to update these Terms & Conditions at any time without prior notice.</p>
+        </section>
+
+        <section id="section9" class="contact-info">
+            <h2>9. Contact Information</h2>
+            <p>If you have any questions regarding these terms, please contact us at:</p>
+            <p><strong>Email:</strong> 
+                <a href="mailto:support@2mbcomputer.com?subject=Terms%20and%20Conditions%20Inquiry" class="gmail-link">
+                    support@2mbcomputer.com
+                </a>
+            </p>
+        </section>
+    </main>
+</div>
+
+<footer>
+    <p>© 2026 2MB Computer. All Rights Reserved. <br> Built for Excellence.</p>
+</footer>
+
+<script>
+
+    // navigation bar 
+const navItems = document.querySelectorAll(".navbar-center li");
+
+navItems.forEach(item => {
+  item.addEventListener("click", (e) => {
+    // Check if the click was on an anchor tag or inside the li
+    // We want the browser to follow the link, so we don't use e.preventDefault()
+    
+    navItems.forEach(i => i.classList.remove("active"));
+    item.classList.add("active");
+  });
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+    const currentPath = window.location.pathname;
+    
+    // --- Desktop Navigation ---
+    const desktopLinks = document.querySelectorAll(".navbar-center a");
+    const desktopLis = document.querySelectorAll(".navbar-center li");
+    
+    desktopLinks.forEach(link => {
+        // If the link matches the current Flask route
+        if (link.getAttribute("href") === currentPath) {
+            desktopLis.forEach(li => li.classList.remove("active"));
+            link.parentElement.classList.add("active");
+        }
+    });
+
+    // --- Mobile Bottom Navigation ---
+    const mobileLinks = document.querySelectorAll(".mobile-bottom-nav a.nav-item");
+    
+    mobileLinks.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            mobileLinks.forEach(i => i.classList.remove("active"));
+            link.classList.add("active");
+        }
+    });
+});
+
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+
+         // Back link
+        document.querySelector(".back-btn").addEventListener("click", () => {
+          window.history.back();
+        });
+</script>
+
+</body>
+</html>

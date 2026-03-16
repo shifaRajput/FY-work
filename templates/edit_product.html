@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>2MB Computer - Edit Product</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='add_product.css') }}">
+</head>
+<body>
+
+<div class="wrapper">
+
+    <div class="header">
+        <div class="back-link" onclick="goBack()">
+            Back to Dashboard
+        </div>
+        <h2>Edit Product: {{ product.name }}</h2>
+    </div>
+
+    <form action="/admin/edit/{{ product.id }}" 
+          method="POST"
+          enctype="multipart/form-data"
+          id="productForm">
+
+        <div class="grid">
+
+            <div class="left">
+
+<div class="card">
+    <h3>Media Management</h3>
+    
+    <div class="existing-media-section">
+        <p style="font-size: 13px; font-weight: 600; color: #325fbf; margin-bottom: 10px;">Currently in Gallery:</p>
+        <div class="preview-grid" id="existingGrid">
+        {% for m in product.media %}
+<div class="preview-item" id="file-{{ loop.index }}">
+    {% if m.filetype == 'video' %}
+        <video src="{{ url_for('static', filename='uploads/' + m.filename) }}" width="150" controls></video>
+        <button type="button" class="remove-btn" onclick="removeFromServer('{{ m.filename }}', 'file-{{ loop.index }}', 'video')">×</button>
+    {% else %}
+        <img src="{{ url_for('static', filename='uploads/' + m.filename) }}" width="150">
+        <button type="button" class="remove-btn" onclick="removeFromServer('{{ m.filename }}', 'file-{{ loop.index }}', 'image')">×</button>
+    {% endif %}
+</div>
+{% endfor %}
+
+</div>
+    </div>
+
+    <input type="hidden" name="removed_files" id="removedFilesInput" value="[]">
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+
+    <label class="upload-box">
+        <input type="file" id="mediaInput" name="media" multiple accept="image/*,video/*">
+        <div class="upload-content">
+            <p>Add New Images or Videos</p>
+            <span>Click to browse and add to gallery</span>
+        </div>
+    </label>
+    <div class="preview-grid" id="previewGrid"></div>
+</div>
+
+                <div class="card">
+                    <h3>Pricing</h3>
+
+                    <div class="price-row">
+                        <div>
+                            <label>Real Price</label>
+                            <input type="number" id="real_price" name="real_price" value="{{ product.real_price }}" required>
+                        </div>
+
+                        <div>
+                            <label>Old Price</label>
+                            <input type="number" id="old_price" name="old_price" value="{{ product.old_price }}" required>
+                        </div>
+
+                        <div>
+                            <label>Save</label>
+                            <input type="text" id="saveAmount" readonly>
+                        </div>
+                    </div>
+
+                    <p class="error" id="priceError"></p>
+                </div>
+
+                <div class="card">
+                    <h3>Product Details</h3>
+                    <input type="text" name="name" placeholder="Product Name" value="{{ product.name }}" required>
+                    <input type="text" name="brand" placeholder="Brand" value="{{ product.brand }}" required>
+                    <input type="text" name="key_specs" placeholder="Key Specifications" value="{{ product.key_specs }}" required>
+                    <input type="text" name="tagline" placeholder="Short Description" value="{{ product.tagline }}" required>
+                </div>       
+
+                <div class="card"> 
+                    <h3>Device Type</h3>
+
+                    <label class="device-card">
+                        <input type="radio" name="device_type" value="laptop" {% if product.device_type == 'laptop' %}checked{% endif %} required>
+                        <span>Laptop</span>
+                    </label>
+                    <br>
+                    <label class="device-card">
+                        <input type="radio" name="device_type" value="smartphone" {% if product.device_type == 'smartphone' %}checked{% endif %}>
+                        <span>Smartphone</span>
+                    </label>
+                    <br>
+                    <label class="device-card">
+                        <input type="radio" name="device_type" value="computer" {% if product.device_type == 'computer' %}checked{% endif %}>
+                        <span>Computer</span>
+                    </label>
+                </div>
+
+            </div>
+            
+            <div class="right">
+
+                <div class="card info-card">
+                    <h3>Product Information</h3>
+                    <textarea name="product_information" placeholder="Product Information" required>{{ product.product_information }}</textarea>
+                </div>
+
+                <div class="card"> 
+                    <label>
+                        Enable Discount      
+                        <input type="checkbox" name="discount" {% if product.discount %}checked{% endif %}>
+                    </label>
+                </div>
+
+                <div class="card">
+                    <h3>Stock</h3>
+                    <input type="number" name="stock" placeholder="Stock Quantity" value="{{ product.stock }}" required>
+                </div>
+
+                <div class="card"> 
+                    <h3>Product Grade</h3>
+
+                    <label class="device-card">
+                        <input type="radio" name="grade" value="A Grade" {% if product.grade == 'A Grade' %}checked{% endif %} required>
+                        <span>A Grade (Like New)</span>
+                    </label>
+                    <br>
+                    <label class="device-card">
+                        <input type="radio" name="grade" value="B Grade" {% if product.grade == 'B Grade' %}checked{% endif %}>
+                        <span>B Grade (Good)</span>
+                    </label>
+                    <br>
+                    <label class="device-card">
+                        <input type="radio" name="grade" value="C Grade" {% if product.grade == 'C Grade' %}checked{% endif %}>
+                        <span>C Grade (Fair)</span>
+                    </label>
+                    <br>
+                    <label class="device-card">
+                        <input type="radio" name="grade" value="D Grade" {% if product.grade == 'D Grade' %}checked{% endif %}>
+                        <span>D Grade (Poor)</span>
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+
+        <br><br>
+        <button type="submit" class="publish">Update Product</button>
+    </form>
+
+</div>
+
+<script>
+    // Initialize the global counters with the current server data
+    // Use quotes around Jinja tags to prevent JS syntax errors in your editor
+    window.existingImageCount = parseInt("{{ product.media|selectattr('filetype', 'equalto', 'image')|list|length }}") || 0;
+    window.existingVideoCount = parseInt("{{ product.media|selectattr('filetype', 'equalto', 'video')|list|length }}") || 0;
+</script>
+<script src="{{ url_for('static', filename='add_product.js') }}"></script>
+
+</body>
+</html>

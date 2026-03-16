@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart - 2MB Computer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<!-- Desktop Navbar -->
+<nav class="navbar desktop-navbar">
+  <div class="navbar-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+
+  <ul class="navbar-center">
+    <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="{{ url_for('sell_bp.sell_page') }}"><i class="fa-solid fa-tag"></i> Sell</a></li>
+    <li><a href="{{ url_for('repair_bp.repair_page') }}"><i class="fa-solid fa-screwdriver-wrench"></i> Repair</a></li>
+    <li><a href="{{ url_for('myorders.order_page') }}"><i class="fa-solid fa-box"></i> My Order</a></li>
+    <li><a href="{{ url_for('profile') }}"><i class="fa-solid fa-user"></i> Me</a></li>
+  </ul>
+
+  <div class="navbar-right">
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" style="display:none;">0</span></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+
+<!-- Mobile Top Bar -->
+<nav class="mobile-topbar">
+  <div class="mobile-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+  <div class="mobile-right">
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" style="display:none;"></span></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+
+<nav class="mobile-bottom-nav">
+  <a href="{{ url_for('home') }}" class="nav-item">
+    <i class="fa-solid fa-house"></i><span>Home</span>
+  </a>
+  <a href="{{ url_for('sell_bp.sell_page') }}" class="nav-item">
+    <i class="fa-solid fa-tag"></i><span>Sell</span>
+  </a>
+  <a href="{{ url_for('repair_bp.repair_page') }}" class="nav-item">
+    <i class="fa-solid fa-screwdriver-wrench"></i><span>Repair</span>
+  </a>
+  <a href="{{ url_for('myorders.order_page') }}" class="nav-item">
+    <i class="fa-solid fa-box"></i><span>Orders</span>
+  </a>
+  <a href="{{ url_for('profile') }}" class="nav-item">
+    <i class="fa-solid fa-user"></i><span>Me</span>
+  </a>
+</nav>
+
+<!-- CART CONTENT -->
+<div class="container">
+    <h2><i class="fa-solid fa-cart-shopping"></i> Shopping Cart</h2>
+    
+    <!-- Loading State -->
+    <div id="cart-loading" class="cart-loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <p>Loading your cart...</p>
+    </div>
+
+    <!-- Empty Cart State -->
+    <div id="cart-empty" class="cart-empty" style="display:none;">
+        <i class="fa-solid fa-cart-arrow-down"></i>
+        <h3>Your cart is empty</h3>
+        <p>Looks like you haven't added anything yet.</p>
+        <a href="{{ url_for('home') }}" class="shop-now-btn">
+            <i class="fa-solid fa-bag-shopping"></i> Shop Now
+        </a>
+    </div>
+
+    <!-- Cart Items (Dynamically Loaded) -->
+    <div id="cart-items"></div>
+</div>
+
+<!-- SUMMARY SECTION -->
+<div class="summary" id="cart-summary" style="display:none;">
+    <div class="row">
+        <span>Subtotal:</span>
+        <span>₹<span id="subtotal">0</span></span>
+    </div>
+    <div class="row">
+        <span>Delivery Charge:</span>
+        <span>₹<span id="delivery">0</span></span>
+    </div>
+    <div class="row total">
+        <span>Grand Total:</span>
+        <span>₹<span id="grandtotal">0</span></span>
+    </div>
+
+    <button id="clearCartBtn" class="clear-cart-btn">
+        <i class="fa-solid fa-trash"></i> Clear Cart
+    </button>
+
+    <button id="paymentBtn" class="checkout-btn">
+        <i class="fa-solid fa-lock"></i> Proceed to Payment
+    </button>
+</div>
+
+<script src="{{ url_for('static', filename='cart.js') }}"></script>
+</body>
+</html>

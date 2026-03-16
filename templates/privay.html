@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | 2MB Computer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='privay.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+ <!--nav bar-->
+  <!-- Desktop Navbar -->
+<nav class="navbar desktop-navbar">
+  <div class="navbar-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+
+  <ul class="navbar-center">
+    <li class="active"><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="{{ url_for('sell_bp.sell_page') }}"><i class="fa-solid fa-tag"></i> Sell</a></li>
+    <li><a href="{{ url_for('repair_bp.repair_page') }}"><i class="fa-solid fa-screwdriver-wrench"></i> Repair</a></li>
+    <li><a href="{{ url_for('myorders.order_page') }}"><i class="fa-solid fa-box"></i> My Order</a></li>
+    <li><a href="{{ url_for('profile') }}"><i class="fa-solid fa-user"></i> Me</a></li>
+  </ul>
+
+  <div class="navbar-right">
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+<!-- Mobile Top Bar -->
+<nav class="mobile-topbar">
+  <div class="mobile-left">
+    <div class="logo-circle">2MB</div>
+    <span class="brand-name">Computer</span>
+  </div>
+
+  <div class="mobile-right">
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i></a>
+    <a href="{{ url_for('wishlist') }}"><i class="fa-regular fa-heart"></i></a>
+  </div>
+</nav>
+
+<nav class="mobile-bottom-nav">
+  <a href="{{ url_for('home') }}" class="nav-item active">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </a>
+  <a href="{{ url_for('sell_bp.sell_page') }}" class="nav-item">
+    <i class="fa-solid fa-tag"></i>
+    <span>Sell</span>
+  </a>
+  <a href="{{ url_for('repair_bp.repair_page') }}" class="nav-item">
+    <i class="fa-solid fa-screwdriver-wrench"></i>
+    <span>Repair</span>
+  </a>
+  <a href="{{ url_for('myorders.order_page') }}" class="nav-item">
+    <i class="fa-solid fa-box"></i>
+    <span>Orders</span>
+  </a>
+  <a href="{{ url_for('profile') }}" class="nav-item">
+    <i class="fa-solid fa-user"></i>
+    <span>Me</span>
+  </a>
+</nav>
+
+    <header>
+        
+      <div class="back-btn" onclick="goBack()">
+  <i class="fa-solid fa-arrow-left"></i>
+  <span>Back</span>
+</div>
+        <h1>Privacy Policy</h1>
+        <p>Welcome! 2MB computer</p>
+    </header>
+
+    <div class="container">
+
+        <div class="policy-box">
+
+            <p class="intro-p reveal">Your privacy is important to us. This Privacy Policy explains how <strong>2MB Computer</strong> collects, uses and protects your personal information.</p>
+
+            <section class="reveal">
+                <h2>1. Information We Collect</h2>
+                <ul>
+                    <li>Name and contact details</li>
+                    <li>Email address</li>
+                    <li>Shipping and billing address</li>
+                    <li>Payment details</li>
+                </ul>
+            </section>
+
+            <section class="reveal">
+                <h2>2. How We Use Your Information</h2>
+                <p>We use your information to process orders, improve our services and provide customer support.</p>
+            </section>
+
+            <section class="reveal">
+                <h2>3. Data Protection</h2>
+                <p>We use secure technologies to protect your personal data from unauthorized access.</p>
+            </section>
+
+            <section class="reveal">
+                <h2>4. Cookies</h2>
+                <p>Our website may use cookies to improve user experience and analyze website traffic.</p>
+            </section>
+
+            <section class="reveal">
+                <h2>5. Third Party Sharing</h2>
+                <p>We do not sell or rent your personal information. Your data may only be shared with trusted service providers for order delivery.</p>
+            </section>
+
+            <section class="contact-card reveal">
+                <h2>6. Contact Support</h2>
+                <p>If you have any questions regarding this Privacy Policy, please contact us. Clicking the button below will open your email app.</p>
+                <a href="mailto:support@2mbcomputer.com?subject=Privacy%20Policy%20Inquiry" class="gmail-link">
+                    <span class="gmail-icon">&#9993;</span> support@2mbcomputer.com
+                </a>
+            </section>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 2MB Computer. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+
+        // navigation bar 
+const navItems = document.querySelectorAll(".navbar-center li");
+
+navItems.forEach(item => {
+  item.addEventListener("click", (e) => {
+    // Check if the click was on an anchor tag or inside the li
+    // We want the browser to follow the link, so we don't use e.preventDefault()
+    
+    navItems.forEach(i => i.classList.remove("active"));
+    item.classList.add("active");
+  });
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+    const currentPath = window.location.pathname;
+    
+    // --- Desktop Navigation ---
+    const desktopLinks = document.querySelectorAll(".navbar-center a");
+    const desktopLis = document.querySelectorAll(".navbar-center li");
+    
+    desktopLinks.forEach(link => {
+        // If the link matches the current Flask route
+        if (link.getAttribute("href") === currentPath) {
+            desktopLis.forEach(li => li.classList.remove("active"));
+            link.parentElement.classList.add("active");
+        }
+    });
+
+    // --- Mobile Bottom Navigation ---
+    const mobileLinks = document.querySelectorAll(".mobile-bottom-nav a.nav-item");
+    
+    mobileLinks.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            mobileLinks.forEach(i => i.classList.remove("active"));
+            link.classList.add("active");
+        }
+    });
+});
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to add a class on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Reveal when 10% is visible
+            });
+
+            // Target elements to observe
+            const targets = document.querySelectorAll('.reveal');
+            targets.forEach((target) => observer.observe(target));
+        });
+
+                // Back link
+        document.querySelector(".back-btn").addEventListener("click", () => {
+          window.history.back();
+        });
+
+    </script>
+
+</body>
+</html>
