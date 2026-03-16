@@ -1,0 +1,528 @@
+/* global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, Arial, sans-serif;
+}
+
+body {
+  background: #f7f8fa;
+  color: #0f172a;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  width: 100%;
+  height: 64px;
+  background: #325fbf;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-circle {
+  background: white;
+  color: #2b6cff;
+  font-weight: 700;
+  font-size: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.navbar-center {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar-center li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-center li:hover {
+  color: #b0b2b7;
+}
+
+.navbar-center li.active {
+  color: #fff;
+  font-weight: 600;
+}
+
+.navbar-center li a {
+    color: inherit;       /* Takes color from the <li> (white) */
+    text-decoration: none;
+    display: flex;        /* Maintains the flex alignment of icon + text */
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 16px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.navbar-right i:hover {
+  color: #b0b2b7;
+}
+.navbar-right a {
+  color: inherit; /* Fixes cart and wishlist icon colors */
+}
+
+.navbar-right a:hover i {
+  color: #b0b2b7;
+}
+
+.mobile-topbar,
+
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-navbar {
+    display: none;
+  }
+
+  .mobile-topbar {
+    display: flex;
+    width: 100%;
+    height: 64px;
+    background: white;
+    padding: 0 16px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .mobile-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mobile-right {
+    display: flex;
+    gap: 18px;
+    font-size: 18px;
+    color: #555;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .mobile-bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    color: #64748b;
+    cursor: pointer;
+  }
+
+  .mobile-bottom-nav .nav-item i {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .mobile-bottom-nav .nav-item.active {
+    color: #2563eb;
+  }
+
+  body {
+    padding-bottom: 70px;
+  }
+}
+
+/* Reset link styles for the bottom nav */
+.mobile-bottom-nav .nav-item {
+    text-decoration: none !important; /* Remove underline */
+    color: #666; /* Your default inactive color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+/* Maintain active state color */
+.mobile-bottom-nav .nav-item.active {
+    color: #007bff; /* Use your specific theme blue color here */
+}
+
+/* Ensure icons and spans don't move */
+.mobile-bottom-nav .nav-item i {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}
+
+.mobile-bottom-nav .nav-item span {
+    font-size: 0.75rem;
+}
+
+.mobile-bottom-nav a.nav-item {
+    text-decoration: none !important;
+    color: #64748b; /* Default gray */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+.mobile-bottom-nav a.nav-item.active {
+    color: #2563eb !important;
+}
+
+/* Fix for top bar icons */
+.mobile-right a {
+    color: #555;
+    text-decoration: none;
+}
+
+/* ================= BACK BUTTON ================= */
+.back-btn-wrapper {
+    padding: 20px 50px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.back-btn {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    color: #0a5cff;
+    transform: translateX(-5px);
+}
+
+/* ================= MAIN CARD ================= */
+.main-card {
+    max-width: 750px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    background: #fcfdfe;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* ================= CROSSED ICONS ================= */
+.animation-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tool {
+    position: absolute;
+    font-size: 65px;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+}
+
+.wrench-anim {
+    color: #bdc3c7;
+    z-index: 1;
+    transform: rotate(5deg);
+}
+
+.screwdriver-anim {
+    z-index: 2;
+    transform: rotate(-82deg);
+    background: linear-gradient(45deg, #e74c3c 45%, #95a5a6 45%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.animation-wrapper i {
+    animation: toolPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes toolPop {
+    0% { opacity: 0; scale: 0.5; }
+    100% { opacity: 1; scale: 1; }
+}
+
+.card-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 5px;
+}
+
+.card-header p {
+    color: #666;
+    font-size: 15px;
+}
+
+/* ================= FORM STYLES ================= */
+form { padding: 40px; }
+
+.section-title {
+    font-size: 20px;
+    margin: 30px 0 6px;
+    color: #111;
+    font-weight: 700;
+}
+
+.section-title:first-child { margin-top: 0; }
+
+.section-desc {
+    font-size: 13.5px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.field { display: flex; flex-direction: column; margin-bottom: 15px; }
+
+.field label {
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+.field input, .field select, .field textarea {
+    padding: 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.field input:focus, .field select:focus, .field textarea:focus {
+    border-color: #0a5cff;
+    box-shadow: 0 0 0 3px rgba(10, 92, 255, .1);
+}
+
+.full { grid-column: 1 / 3; }
+
+/* ================= PAPER PLANE BUTTON ANIMATION ================= */
+.btn {
+    --primary: #0a5cff;
+    --primary-dark: #0046d5;
+    --white: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 600;
+    position: relative;
+    transition: background 0.3s, transform 0.2s;
+    overflow: hidden;
+    margin-top: 35px;
+}
+
+.btn:hover { background: var(--primary-dark); }
+
+.btn .text {
+    display: block;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.btn .icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s;
+}
+
+/* Animation Classes */
+.btn.loading .text {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.btn.loading .icon {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+.btn.loading .icon i {
+    animation: fly 2s infinite ease-in-out;
+}
+
+@keyframes fly {
+    0% { transform: translate(0, 0) rotate(0); }
+    20% { transform: translate(-10px, 5px) rotate(-5deg); }
+    50% { transform: translate(100px, -100px) rotate(-15deg); opacity: 0; }
+    51% { transform: translate(-100px, 100px) rotate(-15deg); opacity: 0; }
+    100% { transform: translate(0, 0) rotate(0); opacity: 1; }
+}
+
+.btn.success { background: #22c55e !important; }
+
+@media(max-width: 768px) {
+    .navbar { padding: 15px 20px; flex-direction: column; gap: 15px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .full { grid-column: 1 / 2; }
+}
+
+/* ================= CUSTOM MODAL ALERT ================= */
+.custom-modal {
+    display: none;
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.custom-modal-content {
+    background: #fff;
+    padding: 35px 30px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    transform: translateY(-20px) scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.custom-modal.show .custom-modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.custom-modal-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.icon-success { color: #22c55e; } /* Green */
+.icon-error { color: #ef4444; }   /* Red */
+
+.custom-modal h3 {
+    font-size: 22px;
+    color: #111;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.custom-modal p {
+    color: #555;
+    font-size: 15px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.custom-modal-btn {
+    background: #0a5cff;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+}
+
+.custom-modal-btn:hover { 
+    background: #0046d5; 
+}
+
+/* If it's an error, make the button red to match */
+.custom-modal-btn.error-btn { 
+    background: #ef4444; 
+}
+.custom-modal-btn.error-btn:hover { 
+    background: #dc2626; 
+}

@@ -1,0 +1,228 @@
+
+
+/* ================= ADMIN DASHBOARD ================= */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f5f7fb;
+}
+
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+
+/* Back link */
+.back-link {
+  font-size: 14px;
+  color: #4a4f55;
+  margin-bottom: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.back-link:hover {
+  color: #2b6cff;
+}
+
+/* Header */
+.admin-header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.admin-header p {
+  margin: 6px 0 20px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Admin Nav Bar */
+.admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+  text-decoration: none;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.admin-nav-item:hover {
+  color: #2b6cff;
+}
+
+.admin-nav-item.active {
+  color: #2b6cff;
+  font-weight: 600;
+  border-bottom: 2px solid #2b6cff;
+}
+
+/* Content Area */
+.admin-content {
+  min-height: 300px;
+}
+
+.admin-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.admin-card h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.admin-card p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.admin-section {
+  display: none;
+}
+
+.admin-section.active {
+  display: block;
+}
+
+/* product */
+.admin-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header h1 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.header p {
+  color: #777;
+  font-size: 14px;
+}
+
+.add-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.add-btn:hover {
+  background: #1d4ed8;
+}
+
+.table-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f1f5f9;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  color: #555;
+  font-weight: 600;
+}
+
+tbody tr {
+  border-top: 1px solid #eee;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+}
+
+.edit-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.edit-link:hover {
+  text-decoration: underline;
+}
+
+.admin-preview {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.no-image {
+    font-size: 12px;
+    color: #999;
+    margin-right: 8px;
+}
+
+/* Add Status Colors */
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.in-stock {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.low-stock {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.medium-stock {
+    background-color: #fff3cd;
+    color: #856404;
+}

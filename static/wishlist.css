@@ -1,0 +1,496 @@
+/* global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, Arial, sans-serif;
+}
+
+body {
+  background: #f7f8fa;
+  color: #0f172a;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* navigation bar */
+.navbar {
+  width: 100%;
+  height: 64px;
+  background: #325fbf;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-circle {
+  background: white;
+  color: #2b6cff;
+  font-weight: 700;
+  font-size: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.navbar-center {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar-center li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-center li:hover {
+  color: #b0b2b7;
+}
+
+.navbar-center li.active {
+  color: #fff;
+  font-weight: 600;
+}
+
+.navbar-center li a {
+    color: inherit;       /* Takes color from the <li> (white) */
+    text-decoration: none;
+    display: flex;        /* Maintains the flex alignment of icon + text */
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 16px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.navbar-right i:hover {
+  color: #b0b2b7;
+}
+.navbar-right a {
+  color: inherit; /* Fixes cart and wishlist icon colors */
+}
+
+.navbar-right a:hover i {
+  color: #b0b2b7;
+}
+
+.mobile-topbar,
+
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-navbar {
+    display: none;
+  }
+
+  .mobile-topbar {
+    display: flex;
+    width: 100%;
+    height: 64px;
+    background: white;
+    padding: 0 16px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .mobile-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mobile-right {
+    display: flex;
+    gap: 18px;
+    font-size: 18px;
+    color: #555;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .mobile-bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    color: #64748b;
+    cursor: pointer;
+  }
+
+  .mobile-bottom-nav .nav-item i {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .mobile-bottom-nav .nav-item.active {
+    color: #2563eb;
+  }
+
+  body {
+    padding-bottom: 70px;
+  }
+}
+
+/* Reset link styles for the bottom nav */
+.mobile-bottom-nav .nav-item {
+    text-decoration: none !important; /* Remove underline */
+    color: #666; /* Your default inactive color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+/* Maintain active state color */
+.mobile-bottom-nav .nav-item.active {
+    color: #007bff; /* Use your specific theme blue color here */
+}
+
+/* Ensure icons and spans don't move */
+.mobile-bottom-nav .nav-item i {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}
+
+.mobile-bottom-nav .nav-item span {
+    font-size: 0.75rem;
+}
+
+.mobile-bottom-nav a.nav-item {
+    text-decoration: none !important;
+    color: #64748b; /* Default gray */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+.mobile-bottom-nav a.nav-item.active {
+    color: #2563eb !important;
+}
+
+/* Fix for top bar icons */
+.mobile-right a {
+    color: #555;
+    text-decoration: none;
+}
+
+.heading {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.wishlist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wishlist-header .heading {
+    margin-top: 0;
+    text-align: left;
+    flex: 1;
+}
+
+.clear-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.clear-btn:hover {
+    background: #b91c1c;
+}
+
+.wishlist-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* wishlist-container was unused; products now live inside .product-container */
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+    margin-top: 20px;
+    place-items: center;
+}
+
+.product {
+    position: relative; /* ensure heart sits inside its own box */
+    width: 100%;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Heart icon - Add/Remove from wishlist */
+.heart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #d1d5db;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.heart:hover {
+    color: #ef4444;
+    transform: scale(1.2);
+}
+
+.heart.active {
+    color: #ef4444;
+}
+
+.product-img, .product-image {
+    /* keep compatibility with older code; both classes styled the same */
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.pname {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px 0 5px;
+    color: #0f172a;
+}
+
+.brand {
+    font-size: 14px;
+    color: #64748b;
+    margin: 5px 0;
+}
+
+.grade {
+    font-size: 12px;
+    color: #2874f0;
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.added-date {
+    font-size: 12px;
+    color: #2874f0;
+    margin: 8px 0;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2874f0;
+    margin: 10px 0;
+}
+
+.rating {
+    color: gold;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    background: #2874f0;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background: #0b5ed7;
+}
+
+.add-to-cart-btn:active {
+    transform: scale(0.98);
+}
+
+/* Empty State */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+    gap: 20px;
+}
+
+.empty-state i {
+    font-size: 80px;
+    color: #cbd5e1;
+}
+
+.empty-state p {
+    font-size: 20px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.browse-btn {
+    background: #2874f0;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.browse-btn:hover {
+    background: #0b5ed7;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .product-container {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wishlist-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .product-container {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .product {
+        padding: 12px;
+    }
+
+    .product-img, .product-image {
+        height: 140px;
+    }
+
+    .pname {
+        font-size: 14px;
+    }
+
+    .brand {
+        font-size: 12px;
+    }
+
+    .price {
+        font-size: 16px;
+    }
+
+    .heart {
+        top: 5px;
+        right: 5px;
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    .add-to-cart-btn {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    body {
+        padding-bottom: 70px;
+    }
+}

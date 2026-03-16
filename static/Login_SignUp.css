@@ -1,0 +1,629 @@
+/* --- YOUR ORIGINAL CSS (DO NOT TOUCH) --- */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg, #ffffff 60%, #e6fbff);
+}
+
+/* ==========================================================================
+   NAVBAR STYLES (Appended from nav.css)
+   ========================================================================== */
+
+/* navigation bar */
+.navbar {
+  width: 100%;
+  height: 64px;
+  background: #325fbf;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  /* Ensure navbar stays at the top if used on the same page */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-circle {
+  background: white;
+  color: #2b6cff;
+  font-weight: 700;
+  font-size: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.navbar-center {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar-center li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.navbar-center li:hover {
+  color: #b0b2b7;
+}
+
+.navbar-center li.active {
+  color: #fff;
+  font-weight: 600;
+}
+
+.navbar-center li a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 16px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.navbar-right i:hover, 
+.navbar-right a:hover i {
+  color: #b0b2b7;
+}
+
+.navbar-right a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Mobile Navbar Elements */
+.mobile-topbar,
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-navbar {
+    display: none;
+  }
+
+  .mobile-topbar {
+    display: flex;
+    width: 100%;
+    height: 64px;
+    background: white;
+    padding: 0 16px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  .mobile-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mobile-right {
+    display: flex;
+    gap: 18px;
+    font-size: 18px;
+    color: #555;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  /* Reset link styles for the bottom nav */
+  .mobile-bottom-nav a.nav-item {
+      text-decoration: none !important;
+      color: #64748b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      transition: all 0.3s ease;
+  }
+
+  .mobile-bottom-nav a.nav-item.active {
+      color: #2563eb !important;
+  }
+
+  .mobile-bottom-nav .nav-item i {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+  }
+
+  .mobile-bottom-nav .nav-item span {
+      font-size: 0.75rem;
+  }
+
+  .mobile-right a {
+      color: #555;
+      text-decoration: none;
+  }
+}
+
+/* 3D SCENE */
+.scene{
+  perspective:1200px;
+}
+
+/* MAIN CARD */
+.container{
+  position:relative;
+  width:850px;
+  height:500px;
+  background:#fff;
+  border-radius:20px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.4);
+  overflow:hidden;
+  transition:transform 0.8s ease;
+  transform-style:preserve-3d;
+}
+
+/* 3D tilt when active */
+.container.active{
+  transform:rotateY(8deg);
+}
+
+/* FORM STYLING */
+.form-container{
+  position:absolute;
+  top:0;
+  height:100%;
+  width:50%;
+  padding:60px;
+  transition:all 0.6s ease;
+}
+
+.sign-in{
+  left:0;
+  z-index:2;
+}
+
+.sign-up{
+  left:0;
+  opacity:0;
+  z-index:1;
+}
+
+.container.active .sign-in{
+  transform:translateX(100%);
+  opacity:0;
+}
+
+.container.active .sign-up{
+  transform:translateX(100%);
+  opacity:1;
+  z-index:5;
+}
+
+h2{
+  margin-bottom:25px;
+  color:#1f2937;
+  text-align: center;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+  outline:none;
+  transition:0.3s;
+}
+
+input:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(0,212,255,0.3);
+}
+
+button{
+  margin-top:15px;
+  padding:12px;
+  width:100%;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(0,212,255,0.5);
+}
+
+/* OVERLAY */
+.overlay-container{
+  position:absolute;
+  top:0;
+  left:50%;
+  width:50%;
+  height:100%;
+  overflow:hidden;
+  transition:transform 0.6s ease;
+  z-index:100;
+}
+
+.container.active .overlay-container{
+  transform:translateX(-100%);
+}
+
+.overlay{
+  background: linear-gradient(135deg, #2563eb, #3772f3);
+  box-shadow: 0 0 40px rgba(0, 200, 255, 0.35);
+  color:white;
+  position:relative;
+  left:-100%;
+  width:200%;
+  height:100%;
+  transition:transform 0.6s ease;
+  display:flex;
+}
+
+.container.active .overlay{
+  transform:translateX(50%);
+}
+
+.overlay-panel{
+  position:absolute;
+  width:50%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px;
+}
+
+.overlay-left,
+.overlay-right{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.overlay-right{
+  right:0;
+}
+
+/* Overlay button style */
+.overlay-panel button{
+  background: white;
+  color: #2563eb;
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Hover effect for overlay button */
+.overlay-panel button:hover{
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+}
+
+/* ERROR TEXT */
+.error-text{
+  color:#ff4d4d;
+  font-size:13px;
+  height:18px;
+  margin-top:5px;
+  transition:0.3s;
+}
+
+/* RED SHAKE ANIMATION */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.input-error{
+  border:2px solid #ff4d4d !important;
+  animation: shake 0.3s;
+}
+
+/* GREEN SUCCESS */
+.tick{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#00c851;
+  font-size:18px;
+  opacity:0;
+  transition:0.3s;
+}
+
+.tick.show{
+  opacity:1;
+}
+
+/* PASSWORD WRAPPER */
+.password-wrapper{
+  position:relative;
+  width:100%;
+}
+
+/* EYE ICON */
+.toggle-eye{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  font-size:16px;
+  opacity:0.6;
+  transition:0.3s;
+}
+
+.toggle-eye:hover{
+  opacity:1;
+  transform:translateY(-50%) scale(1.1);
+}
+.tick{
+  right:40px;
+}
+
+/* DISABLED BUTTON */
+button:disabled{
+  background:#ccc !important;
+  cursor:not-allowed;
+  box-shadow:none;
+}
+
+/* FORGOT PASSWORD MODAL */
+.forgot-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:0.3s;
+}
+
+.forgot-modal.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.forgot-box{
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  width:300px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,0.2);
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px){
+  .container{
+    width: 95%;
+    height: auto;
+    min-height: 600px;
+    transform: none !important;
+  }
+  .form-container{
+    width: 100%;
+    padding: 40px 25px;
+  }
+  .sign-in, .sign-up{
+    left: 0;
+    width: 100%;
+  }
+  .container.active .sign-in{
+    transform: translateY(-100%);
+  }
+  .container.active .sign-up{
+    transform: translateY(0);
+  }
+  .overlay-container{
+    display: none; 
+  }
+  body{
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+}
+
+
+/* --- NEW STYLES ADDED FOR ME BUTTON & PROFILE --- */
+
+/* The Me Button */
+.me-nav-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: auto;
+  padding: 10px 25px;
+  background: #2563eb;
+  border-radius: 50px;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Profile Section Card (Hidden by default in HTML) */
+.profile-card {
+  width: 450px; 
+  background: white; 
+  padding: 40px; 
+  border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.1); 
+  /* Centers it on screen */
+  position: absolute;
+  z-index: 10;
+}
+
+
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.initials-circle {
+  width: 70px; height: 70px; 
+  background: #2563eb; 
+  color: white;
+  border-radius: 50%; 
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
+  font-size: 26px; 
+  font-weight: bold; 
+  margin-right: 20px;
+}
+
+.info-row {
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Cyan Add Button */
+.cyan-add-btn {
+  background: #2563eb !important;
+  color: white !important;
+  width: auto !important;
+  padding: 5px 15px !important;
+  font-size: 12px !important;
+  border-radius: 5px !important;
+  margin: 0 !important;
+}
+
+.display-text {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input-area textarea, .input-area input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.save-btn {
+  background: #2563eb;
+  color: white;
+  padding: 8px;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.logout-link {
+  display: block; 
+  text-align: center; 
+  color: #ff4d4d; 
+  font-weight: bold; 
+  margin-top: 25px; 
+  text-decoration: none;
+}
+
+/* --- ADDRESS GRID STYLES --- */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px; }
+.form-row.single { grid-template-columns: 1fr; }
+.form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 5px; text-align: left; }
+.form-group label { font-size: 0.75rem; font-weight: 600; color: #6b7280; }
+.form-group input { 
+    border: 1px solid #d1d5db; 
+    border-radius: 6px; 
+    padding: 10px; 
+    font-size: 0.85rem; 
+    outline: none; 
+    margin: 0;
+}
+.form-group input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(0,212,255,0.2); }

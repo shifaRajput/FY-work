@@ -1,0 +1,51 @@
+.admin-header-banner { background: linear-gradient(135deg, #2b6cff 0%, #1d4ed8 100%); color: white; padding: 30px 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(43,108,255,0.2); }
+.admin-header-banner h1 { margin: 0 0 8px 0; font-size: 28px; color: white; }
+.admin-header-banner p  { margin: 0; font-size: 15px; opacity: 0.9; }
+
+.card { background: white; padding: 25px; border-radius: 16px; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; }
+table { width: 100%; border-collapse: collapse; }
+th { background: #f8fafc; padding: 15px; text-align: left; color: #64748b; font-weight: 600; font-size: 13px; }
+td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; vertical-align: middle; }
+tr:hover td { background: #f8fafc; }
+
+.status  { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
+.pending  { background: #fff7ed; color: #c2410c; }
+.approved { background: #f0fdf4; color: #15803d; }
+.rejected { background: #fef2f2; color: #b91c1c; }
+
+.btn { border: none; padding: 7px 13px; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 13px; font-weight: 600; }
+.btn:hover:not(:disabled) { opacity: 0.85; transform: scale(1.03); }
+.view    { background: #6366f1; color: white; }
+.approve { background: #22c55e; color: white; margin-right: 5px; }
+.reject  { background: #ef4444; color: white; }
+.contact { background: #0ea5e9; color: white; }
+
+.modal { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.7); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 1000; }
+.modal.show { display: flex; }
+.modal-content { background: white; width: 900px; max-width: 95%; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.3s ease; max-height: 90vh; }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header { padding: 20px 30px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+.modal-header h2 { font-size: 20px; color: #1e293b; margin: 0; }
+.close { cursor: pointer; font-size: 26px; color: #94a3b8; line-height: 1; }
+.modal-body { display: grid; grid-template-columns: 1.2fr 1fr; height: 500px; }
+.image-section { background: #f8fafc; padding: 30px; display: flex; flex-direction: column; align-items: center; border-right: 1px solid #f1f5f9; }
+.main-img-container { width: 100%; height: 300px; display: flex; justify-content: center; align-items: center; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; }
+.main-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.no-image { color: #94a3b8; font-size: 14px; text-align: center; }
+.thumb-list { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+.thumb-item { width: 58px; height: 58px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; object-fit: cover; }
+.thumb-item.active { border-color: #6366f1; transform: scale(1.08); }
+.info-section { padding: 30px; overflow-y: auto; }
+.info-group  { margin-bottom: 18px; }
+.info-label  { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px; font-weight: 700; }
+.info-value  { font-size: 15px; color: #1e293b; font-weight: 500; }
+.price-tag   { font-size: 24px; color: #10b981; font-weight: 700; margin-top: 6px; }
+.desc-text   { color: #64748b; line-height: 1.6; font-size: 14px; background: #f8fafc; padding: 15px; border-radius: 12px; }
+
+.modal-footer { padding: 16px 30px; border-top: 1px solid #f1f5f9; display: flex; gap: 10px; flex-wrap: wrap; }
+
+.empty-state { text-align: center; padding: 60px 20px; color: #94a3b8; }
+.empty-state i { font-size: 40px; margin-bottom: 15px; display: block; }
+
+.toast-notification { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); color: white; padding: 16px 28px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 12px; transition: top 0.4s cubic-bezier(0.175,0.885,0.32,1.275); z-index: 2000; white-space: nowrap; }
+.toast-notification.show { top: 28px; }

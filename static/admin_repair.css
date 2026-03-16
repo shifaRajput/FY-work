@@ -1,0 +1,149 @@
+body{
+font-family:Segoe UI;
+background:#f4f7fc;
+padding:40px;
+}
+
+.container{
+max-width:1250px;
+margin:auto;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:14px;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.subtitle{
+color:#666;
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:15px;
+text-align:left;
+border-bottom:1px solid #eee;
+}
+
+th{
+color:#666;
+font-size:14px;
+}
+
+.status{
+padding:5px 12px;
+border-radius:20px;
+color:white;
+font-size:12px;
+font-weight:600;
+}
+
+.pending{background:#f59e0b;}
+.approved{background:#22c55e;}
+.rejected{background:#ef4444;}
+
+.iconBtn{
+border:none;
+padding:8px 11px;
+border-radius:6px;
+cursor:pointer;
+color:white;
+margin-right:5px;
+}
+
+.approveBtn{background:#22c55e;}
+.rejectBtn{background:#ef4444;}
+
+.viewBtn{
+background:#2563eb;
+border:none;
+padding:7px 14px;
+border-radius:8px;
+cursor:pointer;
+color:white;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+justify-content:center;
+align-items:center;
+}
+
+.modal.show{
+display:flex;
+}
+
+.modal-content{
+background:white;
+width:650px;
+border-radius:14px;
+overflow:hidden;
+}
+
+.modal-header{
+padding:16px;
+font-weight:600;
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid #eee;
+}
+
+.modal-body{
+padding:20px;
+}
+
+.detail-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.detail-item{
+background:#f1f5f9;
+padding:12px;
+border-radius:8px;
+}
+
+.label{
+font-size:12px;
+color:#666;
+}
+
+.value{
+font-weight:600;
+}
+
+.description{
+margin-top:15px;
+background:#f1f5f9;
+padding:12px;
+border-radius:8px;
+}
+
+/* --- New Contact Button Colors --- */
+.contactBtn { background: #8b5cf6; } /* Purple button */
+.contacted { background: #8b5cf6; }  /* Purple status badge */
+
+/* --- Disabled State Styling --- */
+.iconBtn:disabled {
+    background: #cbd5e1 !important; /* Grey color */
+    color: #64748b;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
