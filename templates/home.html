@@ -240,8 +240,8 @@
      data-price="{{ product.real_price }}">
 
       <div class="actions">
-        <button class="wishlist-btn" id="wishlistBtn" data-product-id="{{ product.id }}" onclick="handleDetailWishlistToggle(parseInt(this.getAttribute('data-product-id')), event)">
-        <i class="fa-regular fa-heart"></i>
+        <button class="wishlist-btn wishlistBtn {% if product.id in wishlist_ids %}active{% endif %}" data-product-id="{{ product.id }}" onclick="handleDetailWishlistToggle(parseInt(this.getAttribute('data-product-id')), event)">
+        <i class="{% if product.id in wishlist_ids %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
         </button>
       </div>
     
@@ -392,7 +392,7 @@
       <ul>
         <li>📍Opposite DNA hospital,Maqbool CMP, Pathan wahi, Malad East</li>
         <li>📞<a href="tel:+91 8291828540">+91 8291828540</a></li>
-        <li>📧<a href="mailto:2mbcomputers@gmail.com">2mbcomputers@gmail.com</a></li>
+        <li>📧<a href="/cdn-cgi/l/email-protection#2a1847484945475a5f5e4f58596a4d474b434604494547"><span class="__cf_email__" data-cfemail="be8cd3dcddd1d3cecbcadbcccdfed9d3dfd7d290ddd1d3">[email&#160;protected]</span></a></li>
         <li>💬<a href="https://wa.me/8291828540" target="_blank"> WhatsApp Support</a></li>
       </ul>
     </div>
@@ -402,13 +402,14 @@
       <h3>Tech Support</h3>
       <ul>
         <li><a href="{{ url_for('myorders.order_page') }}">Order Tracking</a></li>
-        <li><a href="#">video</a></li>
+        <li><a href="{{url_for('help_page') }}">help page</a></li>
       </ul>
     </div>
 
   </div>
 </footer>
 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="{{ url_for('static', filename='wishlist-sync.js') }}"></script>
 <script src="{{ url_for('static', filename='home.js') }}"></script>
 
 </body>  
