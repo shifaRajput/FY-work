@@ -69,4 +69,4 @@ document.getElementById('forgotForm').addEventListener('submit', function(e) {
             alert(data.message);
         }
     });
-});
+});    
