@@ -1,120 +1,164 @@
 /**
- * Wishlist Sync Script
- * This script synchronizes wishlist state across all pages
- * It ensures that when you add/remove items from wishlist on any page,
- * all other pages reflect the changes
+ * wishlist-sync.js
+ * 
+ * Syncs wishlist heart state across ALL pages from the server on every load.
+ * Also handles add/remove toggling and keeps the wishlist badge count updated.
+ *
+ * Required button markup (use consistently in all templates):
+ *   <button class="wishlistBtn" data-product-id="{{ product.id }}">
+ *     <i class="fa-regular fa-heart"></i>
+ *   </button>
+ *
+ * Active (wishlisted) state:  button gets class "active", icon switches to fa-solid
+ * Inactive state:             icon switches to fa-regular
+ *
+ * Include this script on every page that shows product cards or detail views.
  */
 
-/**
- * Get current wishlist from the server
- */
-async function getWishlist() {
+(function () {
+
+  // -------------------------------------------------------
+  // 1. Fetch wishlist from server
+  // -------------------------------------------------------
+  async function fetchWishlist() {
     try {
-        const response = await fetch('/api/wishlist/get', {
-            method: 'GET',
-            credentials: 'include'
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Failed to fetch wishlist: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        if (data.success && data.wishlist) {
-            return data.wishlist;
-        }
-        
-        return [];
-    } catch (error) {
-        console.error('Error fetching wishlist:', error);
-        return [];
+      const res = await fetch('/api/wishlist/get', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return data.success ? (data.wishlist || []) : [];
+    } catch {
+      return [];
     }
-}
+  }
 
-/**
- * Update all wishlist buttons on the current page based on server state
- */
-async function syncWishlistUI() {
+  // -------------------------------------------------------
+  // 2. Set a single button's visual state
+  // -------------------------------------------------------
+  function setButtonState(btn, isWishlisted) {
+    const icon = btn.querySelector('i');
+    if (isWishlisted) {
+      btn.classList.add('active');
+      if (icon) {
+        icon.classList.remove('fa-regular');
+        icon.classList.add('fa-solid');
+      }
+    } else {
+      btn.classList.remove('active');
+      if (icon) {
+        icon.classList.remove('fa-solid');
+        icon.classList.add('fa-regular');
+      }
+    }
+  }
+
+  // -------------------------------------------------------
+  // 3. Update all wishlist badge elements on the page
+  // -------------------------------------------------------
+  function updateBadge(count) {
+    document.querySelectorAll('.wishlist-badge, .wishlistBadge').forEach(badge => {
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'flex' : 'none';
+    });
+  }
+
+  // -------------------------------------------------------
+  // 4. Sync all heart buttons on the page with server state
+  // -------------------------------------------------------
+  async function syncWishlistUI() {
+    const wishlist = await fetchWishlist();
+    const wishlistedIds = new Set(wishlist.map(item => String(item.product_id)));
+
+    document.querySelectorAll('.wishlistBtn').forEach(btn => {
+      const id = String(btn.getAttribute('data-product-id'));
+      setButtonState(btn, wishlistedIds.has(id));
+    });
+
+    updateBadge(wishlistedIds.size);
+  }
+
+  // -------------------------------------------------------
+  // 5. Handle add/remove toggle on button click
+  // -------------------------------------------------------
+  async function handleToggle(btn) {
+    const productId = btn.getAttribute('data-product-id');
+    const isWishlisted = btn.classList.contains('active');
+
+    // Optimistic UI update
+    setButtonState(btn, !isWishlisted);
+
     try {
-        const wishlist = await getWishlist();
-        
-        // Extract product IDs from wishlist
-        const wishlistProductIds = new Set(
-            wishlist.map(item => item.product_id)
-        );
-        
-        // Update all wishlist buttons
-        const wishlistBtns = document.querySelectorAll('.wishlistBtn');
-        
-        wishlistBtns.forEach(btn => {
-            const productId = parseInt(btn.getAttribute('data-product-id'));
-            const heartIcon = btn.querySelector('i');
-            
-            if (wishlistProductIds.has(productId)) {
-                // Product is in wishlist
-                btn.classList.add('active');
-                if (heartIcon) {
-                    heartIcon.classList.replace('fa-regular', 'fa-solid');
-                }
-            } else {
-                // Product is not in wishlist
-                btn.classList.remove('active');
-                if (heartIcon) {
-                    heartIcon.classList.replace('fa-solid', 'fa-regular');
-                }
-            }
+      let res;
+      if (isWishlisted) {
+        res = await fetch('/api/wishlist/remove', {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product_id: productId })
         });
-        
-        console.log('Wishlist UI synced with', wishlistProductIds.size, 'items');
-    } catch (error) {
-        console.error('Error syncing wishlist UI:', error);
-    }
-}
+      } else {
+        res = await fetch('/api/wishlist/add', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product_id: productId })
+        });
+      }
 
-/**
- * Load and sync wishlist on page load
- */
-document.addEventListener('DOMContentLoaded', () => {
+      if (res.status === 401) {
+        // Not logged in — revert and redirect
+        setButtonState(btn, isWishlisted);
+        window.location.href = '/auth';
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!data.success) {
+        // Revert optimistic update on failure
+        setButtonState(btn, isWishlisted);
+        return;
+      }
+
+      // Sync ALL buttons for this product (there may be duplicates on page)
+      const newState = !isWishlisted;
+      document.querySelectorAll(`.wishlistBtn[data-product-id="${productId}"]`)
+        .forEach(b => setButtonState(b, newState));
+
+      // Refresh badge from server
+      const wishlist = await fetchWishlist();
+      updateBadge(wishlist.length);
+
+    } catch {
+      // Network error — revert
+      setButtonState(btn, isWishlisted);
+    }
+  }
+
+  // -------------------------------------------------------
+  // 6. Event delegation for all wishlist buttons
+  // -------------------------------------------------------
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.wishlistBtn');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    handleToggle(btn);
+  });
+
+  // -------------------------------------------------------
+  // 7. Sync on page load and when user returns to the tab
+  // -------------------------------------------------------
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncWishlistUI);
+  } else {
     syncWishlistUI();
-});
+  }
 
-/**
- * Re-sync wishlist when page becomes visible (user returns from another tab/page)
- */
-document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-        syncWishlistUI();
-    }
-});
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) syncWishlistUI();
+  });
 
-/**
- * Ensure wishlist sync happens after any wishlist toggle
- * Wait for the global function to be defined if it doesn't exist yet
- */
-function setupWishlistToggleSync() {
-    if (typeof handleDetailWishlistToggle === 'function') {
-        const originalToggle = handleDetailWishlistToggle;
-        
-        // Redefine the function to include sync
-        window.handleDetailWishlistToggle = async function(productId, event) {
-            // Call the original function
-            await originalToggle(productId, event);
-            
-            // Sync the UI on all pages after the toggle
-            setTimeout(() => {
-                syncWishlistUI();
-            }, 500);
-        };
-    }
-}
-
-// Setup sync when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupWishlistToggleSync);
-} else {
-    setupWishlistToggleSync();
-}
-
-// Also try again after a delay to catch late-loading scripts
-setTimeout(setupWishlistToggleSync, 1000);
+})();
