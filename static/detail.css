@@ -504,6 +504,10 @@ a {
   color: #ef4444;
 }
 
+.wishlist-btn:hover i {
+  color: #ef4444;
+}
+
 /* Animated Add to Cart Button */
 .button {
   --background: #2563eb;
