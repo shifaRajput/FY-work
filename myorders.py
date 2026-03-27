@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, send_from_directory, request, session
+from flask import Blueprint, jsonify, render_template, send_from_directory, request, session, redirect
 import sqlite3
 import os
 from datetime import datetime
@@ -21,6 +21,8 @@ def now():
 
 @myorders_bp.route('/myorders')
 def order_page():
+    if 'user_email' not in session:
+        return redirect('/auth')
     return render_template('myorders.html')
 
 @myorders_bp.route('/myorders.js')
