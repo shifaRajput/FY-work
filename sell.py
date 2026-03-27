@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Blueprint, render_template, request, jsonify, session
+from flask import Blueprint, render_template, request, jsonify, session, redirect
 from model import db, User, SellRequest
 
 sell_bp = Blueprint('sell_bp', __name__)
@@ -18,15 +18,17 @@ def allowed_file(filename):
 
 @sell_bp.route("/sell")
 def sell_page():
+    if 'user_email' not in session:
+        return redirect('/auth')
+
     user_data = None
-    if 'user_email' in session:
-        user = User.query.filter_by(email=session['user_email']).first()
-        if user:
-            user_data = {
-                "name":  user.name or "",
-                "email": user.email or "",
-                "phone": user.phone or "",
-            }
+    user = User.query.filter_by(email=session['user_email']).first()
+    if user:
+        user_data = {
+            "name":  user.name or "",
+            "email": user.email or "",
+            "phone": user.phone or "",
+        }
     return render_template("sell.html", user_data=user_data)
 
 
