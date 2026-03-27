@@ -173,8 +173,8 @@
 </button>
       <a href="{{ url_for('payment.checkout', product_id=product.id) }}" class="buy-now">Buy Now</a>
       <div class="actions">
-        <button class="wishlist-btn" id="wishlistBtn" data-product-id="{{ product.id }}" onclick="handleDetailWishlistToggle(parseInt(this.getAttribute('data-product-id')), event)">
-        <i class="fa-regular fa-heart"></i>
+        <button class="wishlist-btn wishlistBtn {% if product.id in wishlist_ids %}active{% endif %}" id="wishlistBtn" data-product-id="{{ product.id }}" onclick="handleDetailWishlistToggle(parseInt(this.getAttribute('data-product-id')), event)">
+          <i class="{% if product.id in wishlist_ids %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
         </button>
       </div>
       
@@ -214,6 +214,8 @@
   <button class="nav-btn next" id="nextImage">&#10095;</button>
 </div> 
 
+<script src="{{ url_for('static', filename='category_discount.js') }}"></script>
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
+<script src="{{ url_for('static', filename='wishlist-sync.js') }}"></script>
 </body>
 </html>
