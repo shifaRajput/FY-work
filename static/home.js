@@ -37,145 +37,15 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-    /**
- * Add product to wishlist
- */
-async function addToWishlist(productId) {
-    try {
-        const response = await fetch('/api/wishlist/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({ product_id: productId })
-        });
-        
-        const data = await response.json();
-        return data.success;
-    } catch (error) {
-        console.error('Error adding to wishlist:', error);
-        return false;
-    }
-}
 
-/**
- * Remove product from wishlist
- */
-async function removeFromWishlist(productId) {
-    try {
-        const response = await fetch('/api/wishlist/remove', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({ product_id: productId })
-        });
-        
-        const data = await response.json();
-        return data.success;
-    } catch (error) {
-        console.error('Error removing from wishlist:', error);
-        return false;
-    }
-}
 
-/**
- * Get user's wishlist
- */
-async function getWishlist() {
-    try {
-        const response = await fetch('/api/wishlist/get', {
-            credentials: 'include'
-        });
-        const data = await response.json();
-        return data.success ? data.wishlist : [];
-    } catch (error) {
-        console.error('Error fetching wishlist:', error);
-        return [];
-    }
-}
 
-/**
- * Handle wishlist toggle on detail page
- */
-async function handleDetailWishlistToggle(productId, event) {
-    event.preventDefault();
-    event.stopPropagation();
-    
-    const button = event.currentTarget;
-    const heartIcon = button.querySelector('i');
-    
-    // Check current state based on the CSS class
-    const isCurrentlyInWishlist = button.classList.contains('active');
 
-    try {
-        let response;
 
-        if (isCurrentlyInWishlist) {
-            // If already in wishlist, remove it
-            response = await fetch('/api/wishlist/remove', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ product_id: productId })
-            });
-        } else {
-            // If not in wishlist, add it
-            response = await fetch('/api/wishlist/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ product_id: productId })
-            });
-        }
 
-        // Handle not logged in
-        if (response.status === 401) {
-            if (confirm("Please login first to manage your wishlist!")) {
-                window.location.href = '/auth';
-            }
-            return;
-        }
 
-        const data = await response.json();
-        
-        // Update the UI if the backend request was successful
-        if (data.success) {
-            if (isCurrentlyInWishlist) {
-                // Item was removed: make heart empty
-                heartIcon.classList.replace('fa-solid', 'fa-regular');
-                button.classList.remove('active');
-            } else {
-                // Item was added: make heart solid red
-                heartIcon.classList.replace('fa-regular', 'fa-solid');
-                button.classList.add('active');
-            }
-        } else {
-            console.error('Failed to update wishlist:', data.error);
-        }
-    } catch (error) {
-        console.error('Error toggling wishlist:', error);
-    }
-}
 
-// Load wishlist state on page load
-window.addEventListener('DOMContentLoaded', async () => {
-    const wishlistBtn = document.getElementById('wishlistBtn');
-    if (wishlistBtn) {
-        const productId = parseInt(wishlistBtn.getAttribute('data-product-id'));
-        const heartIcon = wishlistBtn.querySelector('i');
-        const wishlist = await getWishlist();
-        
-        if (wishlist.some(item => item.product_id === productId)) {
-            // Changed 'btn' to 'wishlistBtn' and 'icon' to 'heartIcon'
-            wishlistBtn.classList.add("active");
-            heartIcon.classList.remove("fa-regular");
-            heartIcon.classList.add("fa-solid");
-        }
-    }
-});
+
 
 
 // image slider
@@ -243,21 +113,8 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-// Heart Icon - Load wishlist state on page load
-window.addEventListener('DOMContentLoaded', async () => {
-    const wishlist = await getWishlist();
-    const productCards = document.querySelectorAll('.product-card');
-    
-    productCards.forEach(card => {
-        const productId = parseInt(card.getAttribute('data-product-id'));
-        const heartIcon = card.querySelector('.heart-icon');
-        
-        if (heartIcon && wishlist.some(item => item.product_id === productId)) {
-            heartIcon.classList.remove('far');
-            heartIcon.classList.add('fas', 'active');
-        }
-    });
-});
+
+
 
     // Slider
     const sliders = document.querySelectorAll('.slider-container');
