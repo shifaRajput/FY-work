@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, send_from_directory
+from flask import Blueprint, render_template, request, jsonify, send_from_directory, session, redirect
 import sqlite3
 import uuid
 import os
@@ -48,6 +48,8 @@ init_db()
 # --- ROUTES ---
 @repair_bp.route('/repair')
 def repair_page():
+    if 'user_email' not in session:
+        return redirect('/auth')
     return render_template('repair.html')
 
 @repair_bp.route('/repair.js')
