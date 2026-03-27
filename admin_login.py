@@ -55,7 +55,7 @@ def forgot_password():
     with sqlite3.connect(DB_PATH) as conn:
         c = conn.cursor()
         c.execute("SELECT * FROM admin WHERE email=? AND recovery_pin=?", (email, pin))
-        if c.fetchone():
+        if c.fetchone():            
             c.execute("UPDATE admin SET password=? WHERE email=?", (new_pass, email))
             conn.commit()
             return jsonify({"status": "success", "message": "Password reset successfully!"}), 200
