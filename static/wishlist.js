@@ -300,29 +300,40 @@ async function handleWishlistToggle(productId, event) {
 /**
  * Handle add to cart
  */
-function handleAddToCart(productId, productName, productPrice, productImage) {
-    // Get current cart from localStorage
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Check if product already in cart
-    const existingItem = cart.find(item => item.product_id === productId);
-    if (existingItem) {
-        existingItem.quantity = (existingItem.quantity || 1) + 1;
-    } else {
-        cart.push({
-            product_id: productId,
-            name: productName,
-            price: productPrice,
-            image_url: productImage,
-            quantity: 1
+async function handleAddToCart(productId, productName, productPrice, productImage) {
+    try {
+        const response = await fetch('/cart_api/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ 
+                product_id: productId,
+                quantity: 1
+            })
         });
+        
+        if (response.status === 401) {
+            alert('Please login to add items to cart');
+            return false;
+        }
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            alert(data.error || 'Failed to add to cart');
+            return false;
+        }
+        
+        // Show confirmation
+        alert(`${productName} added to cart!`);
+        return true;
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to add to cart');
+        return false;
     }
-    
-    // Save to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    // Show confirmation
-    alert(`${productName} added to cart!`);
 }
 
 // Event listeners
