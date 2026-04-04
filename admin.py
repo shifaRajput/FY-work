@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from admin_login import admin_login_bp
 from admin_dashboard import admin_dashboard_bp, db
 from admin_orders import admin_orders_bp
@@ -62,6 +62,10 @@ app.register_blueprint(admin_sell_bp)   # ✅ ADDED
 @app.route('/')
 def root():
     return redirect(url_for('admin_login.login_page'))
+
+@app.route('/admin/help')
+def help():
+    return render_template('admin_help.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
