@@ -65,7 +65,7 @@ def serve_add_js():
 # -------------------------
 # CORE ROUTES
 # -------------------------
-@admin_dashboard_bp.route('/admin')
+@admin_dashboard_bp.route('/admin/dashboard')
 def admin_dashboard():
     if not session.get("is_admin"):
         return redirect(url_for('admin_login.login_page'))
