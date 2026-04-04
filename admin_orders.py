@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, render_template, send_from_directory, redirect, request, session, url_for
 import sqlite3
 import os
+from model import db, Orders, User, Product
 from datetime import datetime
-from model import db, Orders
 
 admin_orders_bp = Blueprint('admin_orders', __name__)
 
@@ -47,10 +47,13 @@ def admin_get_orders():
 
     try:
         conn = get_db()
+        # We use the actual names from your users.db file:
+        # Table is 'user' (not users)
+        # Column is 'id' (not user_id)
         rows = conn.execute("""
             SELECT
                 o.id            AS order_id,
-                u.user_id,
+                u.id            AS user_id,
                 u.name          AS customer_name,
                 u.email         AS customer_email,
                 p.name          AS product_name,
@@ -62,17 +65,20 @@ def admin_get_orders():
                 o.delivery_address,
                 o.created_at
             FROM orders o
-            LEFT JOIN users u   ON o.user_id    = u.user_id
+            LEFT JOIN user u    ON o.user_id    = u.id
             LEFT JOIN product p ON o.product_id = p.id
             WHERE o.status NOT IN ('pending', 'Cancelled', 'Returned')
             ORDER BY o.created_at DESC
         """).fetchall()
         conn.close()
+        
+        # This converts the database rows into a list your JavaScript can read
         return jsonify([dict(r) for r in rows])
+        
     except Exception as e:
-        print(f"[ERROR] admin_get_orders: {e}")
+        # This will print the EXACT reason for the 500 error in your terminal
+        print(f"[DATABASE ERROR] admin_get_orders: {e}")
         return jsonify({"error": str(e)}), 500
-
 
 @admin_orders_bp.route('/api/admin/update-status/<int:order_id>', methods=['POST'])
 def admin_update_status(order_id):
@@ -87,23 +93,22 @@ def admin_update_status(order_id):
         if new_status not in valid_statuses:
             return jsonify({"success": False, "error": "Invalid status"}), 400
 
-        conn  = get_db()
-        order = conn.execute("SELECT status FROM orders WHERE id=?", (order_id,)).fetchone()
+        order = Orders.query.get(order_id)
         if not order:
-            conn.close()
             return jsonify({"success": False, "error": "Order not found"}), 404
+
+        order.status = new_status
 
         date_col = DATE_COLUMNS.get(new_status)
         if date_col:
-            conn.execute(
-                f"UPDATE orders SET status=?, {date_col}=? WHERE id=?",
-                (new_status, now(), order_id)
-            )
-        else:
-            conn.execute("UPDATE orders SET status=? WHERE id=?", (new_status, order_id))
+            setattr(order, date_col, now())
 
-        conn.commit()
-        conn.close()
+        # Save changes
+        db.session.commit()
+        
         return jsonify({"success": True, "new_status": new_status})
+        
     except Exception as e:
+        db.session.rollback() # Rollback on error to prevent database locking
+        print(f"[ERROR] admin_update_status: {e}")
         return jsonify({"success": False, "error": str(e)}), 500
