@@ -1,6 +1,3 @@
-
-
-
 from flask import Blueprint, jsonify, render_template, send_from_directory, request, session, redirect
 import sqlite3
 import os
