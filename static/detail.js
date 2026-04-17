@@ -1,6 +1,13 @@
 // Back link
 document.querySelector(".back-btn").addEventListener("click", () => {
-  window.history.back();
+  const referrer = document.referrer;
+  // Agar referrer exist karta hai aur same site ka hai toh wahan jaao
+  if (referrer && new URL(referrer).origin === window.location.origin) {
+    window.location.href = referrer;
+  } else {
+    // Fallback: browser history mein peeche jaao
+    window.history.back();
+  }
 });
 
 const container = document.getElementById('container');
