@@ -15,10 +15,13 @@ if (filterBtn && filterDropdown) {
     };
 }
 
-    // Back link
-    document.querySelector(".back-btn").addEventListener("click", () => {
-      window.history.back();
-    });
+        // Back link — home page par jaao
+    const backBtn = document.querySelector(".back-btn");
+    if (backBtn) {
+      backBtn.addEventListener("click", () => {
+        window.location.href = "/";
+      });
+    }
 
         /**
  * Add product to wishlist
