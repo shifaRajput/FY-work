@@ -667,3 +667,11 @@ background:#125aa3;
     justify-content: center;
 }
 .navbar-right a, .mobile-right a { position: relative; }
+/* No-transition class — page load par instant state restore ke liye */
+.button.no-transition,
+.button.no-transition *,
+.button.no-transition .quantity-controls,
+.button.no-transition .text-initial {
+    transition: none !important;
+    animation: none !important;
+}
