@@ -194,21 +194,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============================
-// CART BADGE
+// CART BADGE — cart-sync.js handle karta hai
 // ============================
 function updateCartBadge() {
-    fetch('/cart_api/count')
-        .then(res => res.json())
-        .then(data => {
-            const badges = document.querySelectorAll('.cart-badge');
-            badges.forEach(badge => {
-                if (data.count > 0) {
-                    badge.textContent = data.count;
-                    badge.style.display = 'flex';
-                } else {
-                    badge.style.display = 'none';
-                }
-            });
-        })
-        .catch(() => {});
+    if (window.syncCartBadge) window.syncCartBadge();
 }
