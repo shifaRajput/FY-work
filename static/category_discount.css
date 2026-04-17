@@ -380,7 +380,8 @@ a {
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
-.wishlist-btn {
+.wishlist-btn,
+.wishlistBtn {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -395,16 +396,19 @@ a {
   transition: all 0.2s ease;
 }
 
-.wishlist-btn:hover {
+.wishlist-btn:hover,
+.wishlistBtn:hover {
   border-color: #ef4444;
 }
 
-.wishlist-btn.active {
+.wishlist-btn.active,
+.wishlistBtn.active {
   background: #fee2e2;
   border-color: #ef4444;
 }
 
-.wishlist-btn.active i {
+.wishlist-btn.active i,
+.wishlistBtn.active i {
   color: #ef4444;
 }
 
@@ -686,4 +690,12 @@ a {
     font-size: 16px;
     font-weight: bold;
     min-width: 20px;
+}
+/* No-transition class — page load par instant state restore ke liye */
+.button.no-transition,
+.button.no-transition *,
+.button.no-transition .quantity-controls,
+.button.no-transition .text-initial {
+    transition: none !important;
+    animation: none !important;
 }
