@@ -108,9 +108,11 @@
       }
 
       if (res.status === 401) {
-        // Not logged in — revert and redirect
+        // Not logged in — revert optimistic update and ask user
         setButtonState(btn, isWishlisted);
-        window.location.href = '/auth';
+        if (confirm('Please login first')) {
+          window.location.href = '/auth';
+        }
         return;
       }
 
@@ -125,7 +127,29 @@
       // Sync ALL buttons for this product (there may be duplicates on page)
       const newState = !isWishlisted;
       document.querySelectorAll(`.wishlistBtn[data-product-id="${productId}"]`)
-        .forEach(b => setButtonState(b, newState));
+        .forEach(b => {
+          setButtonState(b, newState);
+          // Agar wishlist page par hain aur item remove hua, toh card hide karo
+          if (!newState && document.getElementById('wishlistProducts')) {
+            const card = b.closest('.product');
+            if (card) {
+              card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+              card.style.opacity = '0';
+              card.style.transform = 'scale(0.9)';
+              setTimeout(() => {
+                card.remove();
+                // Agar koi card nahi bacha toh empty state dikhao
+                const remaining = document.querySelectorAll('#wishlistProducts .product');
+                if (remaining.length === 0) {
+                  document.getElementById('wishlistProducts').style.display = 'none';
+                  document.getElementById('emptyState').style.display = 'flex';
+                  const clearBtn = document.getElementById('clearBtn');
+                  if (clearBtn) clearBtn.style.display = 'none';
+                }
+              }, 400);
+            }
+          }
+        });
 
       // Refresh badge from server
       const wishlist = await fetchWishlist();
