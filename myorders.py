@@ -1,4 +1,7 @@
-from flask import Blueprint, jsonify, render_template, send_from_directory, request, session
+
+
+
+from flask import Blueprint, jsonify, render_template, send_from_directory, request, session, redirect
 import sqlite3
 import os
 from datetime import datetime
@@ -21,7 +24,25 @@ def now():
 
 @myorders_bp.route('/myorders')
 def order_page():
-    return render_template('myorders.html')
+    if 'user_email' not in session:
+        return redirect('/auth')
+    
+    user = None
+    conn = get_db()
+    user_row = conn.execute(
+        "SELECT user_id, name, email, address, phone FROM users WHERE email=?", 
+        (session['user_email'],)
+    ).fetchone()
+    conn.close()
+    if user_row:
+        user = {
+            'id': user_row['user_id'],
+            'name': user_row['name'],
+            'email': user_row['email'],
+            'address': user_row['address'],
+            'phone': user_row['phone']
+        }
+    return render_template('myorders.html', user=user)
 
 @myorders_bp.route('/myorders.js')
 def serve_js():
@@ -31,15 +52,16 @@ def serve_js():
 
 @myorders_bp.route('/api/orders')
 def get_orders():
+    if 'user_email' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
     try:
         conn = get_db()
 
-        user_id = None
-        if 'user_email' in session:
-            user = conn.execute(
-                "SELECT user_id FROM users WHERE email=?", (session['user_email'],)
-            ).fetchone()
-            user_id = user['user_id'] if user else None
+        user = conn.execute(
+            "SELECT user_id FROM users WHERE email=?", (session['user_email'],)
+        ).fetchone()
+        user_id = user['user_id'] if user else None
 
         # JOIN against `product` table (id, name, brand, device_type, grade)
         sql = """
@@ -66,13 +88,8 @@ def get_orders():
             ORDER BY o.created_at DESC
         """
 
-        if user_id:
-            rows = conn.execute(
+        rows = conn.execute(
                 sql.format(user_filter="AND o.user_id = ?"), (user_id,)
-            ).fetchall()
-        else:
-            rows = conn.execute(
-                sql.format(user_filter="")
             ).fetchall()
 
         conn.close()
