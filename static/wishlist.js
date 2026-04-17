@@ -261,9 +261,9 @@ function createProductCard(product, inWishlist = false) {
     console.log('Product:', product.name, 'Date:', dateFieldName, 'Formatted:', dateStr);
     
     card.innerHTML = `
-        <div class="heart ${inWishlist ? 'active' : ''}" onclick="handleWishlistToggle(${product.product_id || product.id}, event)" title="Add/Remove from wishlist">
-            <i class="fa fa-heart"></i>
-        </div>
+        <button class="wishlistBtn active" data-product-id="${product.product_id || product.id}" title="Remove from wishlist">
+            <i class="fa-solid fa-heart"></i>
+        </button>
         
         <img src="${imageUrl}" class="product-img" alt="${product.name}">
         
